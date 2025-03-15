@@ -63,13 +63,33 @@ const FileUpload: React.FC<FileUploadProps> = ({
     reader.onload = (e) => {
       const result = e.target?.result as string;
       if (result) {
+        // Determine the correct type
+        let docType = 'unknown';
+        if (fileType === 'pdf') {
+          docType = 'pdf';
+        } else if (['docx', 'doc'].includes(fileType || '')) {
+          docType = 'docx';
+        }
+        
+        console.log(`File uploaded: ${file.name}, type: ${docType}, size: ${(result.length / 1024).toFixed(2)} KB`);
+        console.log(`Data URL prefix: ${result.substring(0, 50)}...`);
+        
+        // Ensure the data URL is valid
+        if (!result.startsWith('data:')) {
+          console.error('Invalid data URL format');
+          setError('Invalid file format');
+          setLoading(false);
+          return;
+        }
+        
         const newDocument: DocumentType = {
           id: Date.now().toString(),
           name: file.name,
-          type: fileType === 'pdf' ? 'pdf' : 'docx',
+          type: docType,
           data: result,
           lastUpdated: new Date().toISOString()
         };
+        
         onChange(newDocument);
         setLoading(false);
       }

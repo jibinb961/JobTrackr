@@ -7,10 +7,12 @@ import {
   Box,
   Typography,
   CircularProgress,
-  useTheme
+  useTheme,
+  Button
 } from '@mui/material';
-import { Close as CloseIcon } from '@mui/icons-material';
+import { Close as CloseIcon, Download as DownloadIcon } from '@mui/icons-material';
 import { renderAsync } from 'docx-preview';
+import SimplePdfViewer from './SimplePdfViewer';
 
 export interface DocumentViewerProps {
   open: boolean;
@@ -26,8 +28,7 @@ const DocumentViewer: React.FC<DocumentViewerProps> = ({ open, onClose, document
   const theme = useTheme();
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
-  const iframeRef = React.useRef<HTMLIFrameElement>(null);
-
+  
   useEffect(() => {
     if (open && document) {
       setLoading(true);
@@ -35,12 +36,10 @@ const DocumentViewer: React.FC<DocumentViewerProps> = ({ open, onClose, document
       
       try {
         if (document.type.includes('pdf')) {
-          // For PDF files, we use an iframe with data URL
-          if (iframeRef.current) {
-            iframeRef.current.onload = () => {
-              setLoading(false);
-            };
-          }
+          // For PDF files, we'll use SimplePdfViewer
+          console.log('Processing PDF document:', document.name);
+          // The loading state will be managed by SimplePdfViewer
+          setLoading(false);
         } else if (document.type.includes('docx')) {
           // For DOCX files, we use docx-preview
           const container = window.document.getElementById('docx-container');
@@ -80,6 +79,22 @@ const DocumentViewer: React.FC<DocumentViewerProps> = ({ open, onClose, document
     return bytes.buffer;
   };
 
+  const handleDownload = () => {
+    if (!document) return;
+    
+    try {
+      // Create a temporary link element
+      const link = window.document.createElement('a');
+      link.href = document.data;
+      link.download = document.name;
+      window.document.body.appendChild(link);
+      link.click();
+      window.document.body.removeChild(link);
+    } catch (err) {
+      console.error('Error downloading document:', err);
+    }
+  };
+
   if (!document) {
     return null;
   }
@@ -101,18 +116,30 @@ const DocumentViewer: React.FC<DocumentViewerProps> = ({ open, onClose, document
         <Typography variant="h6" component="div">
           {document.name}
         </Typography>
-        <IconButton
-          aria-label="close"
-          onClick={onClose}
-          sx={{
-            color: theme.palette.grey[500],
-          }}
-        >
-          <CloseIcon />
-        </IconButton>
+        <Box sx={{ display: 'flex', gap: 1 }}>
+          {document.type.includes('pdf') && (
+            <Button 
+              startIcon={<DownloadIcon />} 
+              size="small" 
+              onClick={handleDownload}
+              variant="outlined"
+            >
+              Download
+            </Button>
+          )}
+          <IconButton
+            aria-label="close"
+            onClick={onClose}
+            sx={{
+              color: theme.palette.grey[500],
+            }}
+          >
+            <CloseIcon />
+          </IconButton>
+        </Box>
       </DialogTitle>
       <DialogContent dividers sx={{ p: 0, height: '70vh', position: 'relative' }}>
-        {loading && (
+        {loading && !document.type.includes('pdf') && (
           <Box sx={{ display: 'flex', justifyContent: 'center', alignItems: 'center', height: '100%' }}>
             <CircularProgress />
           </Box>
@@ -125,17 +152,7 @@ const DocumentViewer: React.FC<DocumentViewerProps> = ({ open, onClose, document
         )}
         
         {document.type.includes('pdf') ? (
-          <iframe
-            ref={iframeRef}
-            src={document.data}
-            style={{
-              width: '100%',
-              height: '100%',
-              border: 'none',
-              display: loading ? 'none' : 'block',
-            }}
-            title="PDF Viewer"
-          />
+          <SimplePdfViewer pdfData={document.data} />
         ) : (
           <div
             id="docx-container"
