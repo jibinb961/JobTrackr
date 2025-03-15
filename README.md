@@ -1,46 +1,106 @@
-# Getting Started with Create React App
+# JobTrackr - Job Application Tracker
 
-This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
+JobTrackr is a modern, visually appealing web application for tracking your job applications. It features a dark-themed UI with interactive animations and a user-friendly interface.
 
-## Available Scripts
+## Features
 
-In the project directory, you can run:
+- **Dashboard**: Get an overview of your job application statistics
+- **Application Management**: Add, edit, and delete job applications
+- **Filtering & Sorting**: Easily find applications by company, title, status, or source
+- **Analytics**: View insights about your job search process
+- **Local Storage**: All data is stored locally in your browser
+- **Export/Import**: Backup your data to prevent loss
 
-### `npm start`
+## Technologies Used
 
-Runs the app in the development mode.\
-Open [http://localhost:3000](http://localhost:3000) to view it in the browser.
+- React 18
+- TypeScript
+- Material UI
+- Framer Motion for animations
+- React Router for navigation
+- Local Storage for data persistence
 
-The page will reload if you make edits.\
-You will also see any lint errors in the console.
+## Getting Started
 
-### `npm test`
+### Prerequisites
 
-Launches the test runner in the interactive watch mode.\
-See the section about [running tests](https://facebook.github.io/create-react-app/docs/running-tests) for more information.
+- Node.js (v14 or higher)
+- npm or yarn
 
-### `npm run build`
+### Installation
 
-Builds the app for production to the `build` folder.\
-It correctly bundles React in production mode and optimizes the build for the best performance.
+1. Clone the repository or download the source code
+2. Navigate to the project directory
+3. Install dependencies:
 
-The build is minified and the filenames include the hashes.\
-Your app is ready to be deployed!
+```bash
+npm install
+# or
+yarn install
+```
 
-See the section about [deployment](https://facebook.github.io/create-react-app/docs/deployment) for more information.
+4. Start the development server:
 
-### `npm run eject`
+```bash
+npm start
+# or
+yarn start
+```
 
-**Note: this is a one-way operation. Once you `eject`, you can’t go back!**
+5. Open your browser and navigate to `http://localhost:3000`
 
-If you aren’t satisfied with the build tool and configuration choices, you can `eject` at any time. This command will remove the single build dependency from your project.
+## Usage
 
-Instead, it will copy all the configuration files and the transitive dependencies (webpack, Babel, ESLint, etc) right into your project so you have full control over them. All of the commands except `eject` will still work, but they will point to the copied scripts so you can tweak them. At this point you’re on your own.
+### Adding a Job Application
 
-You don’t have to ever use `eject`. The curated feature set is suitable for small and middle deployments, and you shouldn’t feel obligated to use this feature. However we understand that this tool wouldn’t be useful if you couldn’t customize it when you are ready for it.
+1. Click on "Add New" in the sidebar or "Add New Application" button on the dashboard
+2. Fill in the application details:
+   - Company name
+   - Job title
+   - Job description
+   - Application portal URL
+   - Application date
+   - Status
+   - Source
+   - Notes
+3. Click "Save" to add the application
 
-## Learn More
+### Managing Applications
 
-You can learn more in the [Create React App documentation](https://facebook.github.io/create-react-app/docs/getting-started).
+- View all applications on the Applications page
+- Filter applications by status, source, or search term
+- Sort applications by date, company name, or last updated
+- Click on a job card to expand and see more details
+- Use the edit and delete buttons to manage applications
 
-To learn React, check out the [React documentation](https://reactjs.org/).
+### Analytics
+
+The Analytics page provides insights about your job search:
+- Application status breakdown
+- Application source breakdown
+- Key metrics like interview rate and offer rate
+- Applications by month
+
+### Settings
+
+- Export your data as JSON
+- Import previously exported data
+- Delete all data (with confirmation)
+
+## Data Storage
+
+All data is stored locally in your browser using localStorage. To prevent data loss:
+- Export your data regularly
+- Use the same browser and device to access your applications
+- Don't clear your browser data without exporting first
+
+## License
+
+This project is open source and available under the MIT License.
+
+## Acknowledgements
+
+- Material UI for the component library
+- Framer Motion for the animations
+- React Router for navigation
+- Create React App for the project setup
