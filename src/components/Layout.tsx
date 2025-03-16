@@ -22,7 +22,8 @@ import {
   Work as WorkIcon, 
   Add as AddIcon, 
   BarChart as AnalyticsIcon,
-  Settings as SettingsIcon
+  Settings as SettingsIcon,
+  Description as ResumeIcon
 } from '@mui/icons-material';
 import { Link, useLocation } from 'react-router-dom';
 import { motion } from 'framer-motion';
@@ -47,6 +48,7 @@ const Layout: React.FC<LayoutProps> = ({ children }) => {
     { text: 'Dashboard', icon: <DashboardIcon />, path: '/' },
     { text: 'Applications', icon: <WorkIcon />, path: '/applications' },
     { text: 'Add New', icon: <AddIcon />, path: '/add' },
+    { text: 'Resumes', icon: <ResumeIcon />, path: '/resumes' },
     { text: 'Analytics', icon: <AnalyticsIcon />, path: '/analytics' },
     { text: 'Settings', icon: <SettingsIcon />, path: '/settings' },
   ];
